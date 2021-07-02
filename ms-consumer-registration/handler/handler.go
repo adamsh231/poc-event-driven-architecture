@@ -3,7 +3,7 @@ package handler
 import (
 	"fmt"
 	"ms-consumer-registration/domain"
-	"ms-consumer-registration/helper"
+	"ms-consumer-registration/helpers"
 )
 
 type Handler struct {
@@ -20,7 +20,7 @@ func (handler Handler) RegisterHandler() {
 	}
 	fmt.Println("Listening on topic:", topics)
 
-	kafkaHelper := helper.NewKafkaHelper(handler.Config.KafkaConsumer)
+	kafkaHelper := helpers.NewKafkaHelper(handler.Config.KafkaConsumer)
 	for _, topic := range topics {
 		kafkaHelper.AddHandler(topic)
 	}
