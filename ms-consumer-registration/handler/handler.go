@@ -4,6 +4,7 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"ms-consumer-registration/domain"
 	"ms-consumer-registration/helpers"
+	"time"
 )
 
 type Handler struct {
@@ -21,6 +22,7 @@ func (handler Handler) RegisterHandler() {
 	// transaction topic
 	kafkaHelper.AddHandler("transaction", func(message *kafka.Message) {
 		redisHelper.QueueingOutlet(message)
+		time.Sleep(3 * time.Second)
 	})
 
 }

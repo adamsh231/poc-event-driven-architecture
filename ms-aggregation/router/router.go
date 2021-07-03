@@ -14,7 +14,7 @@ type Router struct {
 	Config domain.Config
 }
 
-func NewRouter(app *fiber.App, config domain.Config) Router{
+func NewRouter(app *fiber.App, config domain.Config) Router {
 	return Router{App: app, Config: config}
 }
 
@@ -31,7 +31,7 @@ func (router Router) RegisterRouter() {
 		}
 
 		kafkaHelper := helpers.NewKafkaHelper(router.Config.KafkaProducer)
-		if err := kafkaHelper.Publish(input.Topic, input.Message); err != nil{
+		if err := kafkaHelper.Publish(input.Topic, input.Message); err != nil {
 			return ctx.SendString(err.Error())
 		}
 
@@ -52,9 +52,9 @@ func (router Router) RegisterRouter() {
 
 		fake := gofakeit.New(0)
 		message := map[string]interface{}{
-			"name": fake.Name(),
+			"name":   fake.Name(),
 			"gender": fake.Gender(),
-			"pet": fake.Animal(),
+			"pet":    fake.Animal(),
 			"friends": []string{
 				fake.Name(),
 				fake.Name(),
@@ -63,11 +63,11 @@ func (router Router) RegisterRouter() {
 		}
 
 		kafkaHelper := helpers.NewKafkaHelper(router.Config.KafkaProducer)
-		if err := kafkaHelper.Publish(input.Topic, message); err != nil{
+		if err := kafkaHelper.Publish(input.Topic, message); err != nil {
 			return ctx.SendString(err.Error())
 		}
 
-		fmt.Println(message)
+		fmt.Println("Sending message to broker,", message)
 
 		return ctx.JSON(message)
 	})
