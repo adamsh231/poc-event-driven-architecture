@@ -28,7 +28,7 @@ func LoadConfig() (config Config, err error){
 
 	// redis
 	redisClient := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6377",
+		Addr:     "localhost:6379",
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})

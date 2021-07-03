@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"ms-consumer-registration/domain"
 	"ms-consumer-registration/handler"
@@ -13,6 +14,7 @@ func main() {
 	}
 	defer config.KafkaConsumer.Close()
 
+	fmt.Println("Listening on broker...")
 	handler.NewHandler(config).RegisterHandler()
 }
 

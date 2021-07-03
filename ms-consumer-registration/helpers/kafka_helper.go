@@ -14,7 +14,7 @@ func NewKafkaHelper(kafkaConsumer *kafka.Consumer) KafkaHelper {
 	return KafkaHelper{KafkaConsumer: kafkaConsumer}
 }
 
-func (helper KafkaHelper) AddHandler(topic string) {
+func (helper KafkaHelper) AddHandler(topic string, action func(message *kafka.Message)) {
 
 	doneChan := make(chan bool)
 
@@ -30,13 +30,14 @@ func (helper KafkaHelper) AddHandler(topic string) {
 				switch event.(type) {
 
 				case *kafka.Message:
-					// It's a message
 					km := event.(*kafka.Message)
 					fmt.Printf("✅ Message '%v' received from topic '%v' (partition %d at offset %d)\n",
 						string(km.Value),
 						string(*km.TopicPartition.Topic),
 						km.TopicPartition.Partition,
 						km.TopicPartition.Offset)
+
+					action(km)
 
 				case kafka.PartitionEOF:
 					pe := event.(kafka.PartitionEOF)

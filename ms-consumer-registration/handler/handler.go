@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"ms-consumer-registration/domain"
 	"ms-consumer-registration/helpers"
 )
@@ -15,14 +16,11 @@ func NewHandler(config domain.Config) Handler {
 }
 
 func (handler Handler) RegisterHandler() {
-	topics := []string{
-		"transaction",
-	}
-	fmt.Println("Listening on topic:", topics)
-
 	kafkaHelper := helpers.NewKafkaHelper(handler.Config.KafkaConsumer)
-	for _, topic := range topics {
-		kafkaHelper.AddHandler(topic)
-	}
+
+	// transaction topic
+	kafkaHelper.AddHandler("transaction", func(message *kafka.Message) {
+		fmt.Println("Do action here")
+	})
 
 }
