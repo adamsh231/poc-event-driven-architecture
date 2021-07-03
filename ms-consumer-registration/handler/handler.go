@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"ms-consumer-registration/domain"
 	"ms-consumer-registration/helpers"
@@ -17,10 +16,11 @@ func NewHandler(config domain.Config) Handler {
 
 func (handler Handler) RegisterHandler() {
 	kafkaHelper := helpers.NewKafkaHelper(handler.Config.KafkaConsumer)
+	redisHelper := helpers.NewRedisHelper(handler.Config.RedisClient)
 
 	// transaction topic
 	kafkaHelper.AddHandler("transaction", func(message *kafka.Message) {
-		fmt.Println("Do action here")
+		redisHelper.QueueingOutlet(message)
 	})
 
 }
