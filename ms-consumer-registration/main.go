@@ -12,9 +12,10 @@ func main() {
 	if err != nil {
 		log.Fatal("Error while loading configuration:", err.Error())
 	}
-	defer config.KafkaConsumer.Close()
 
-	fmt.Println("Listening on broker...")
+	doneChan := make(chan bool)
 	handler.NewHandler(config).RegisterHandler()
+	fmt.Println("Listening on broker...")
+	<-doneChan
 }
 

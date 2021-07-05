@@ -21,6 +21,12 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+  
+  # add control center + lengkapi yaml (ex: ksql)
+  # alif control center dokumentasi jika terjadi error
+  # zookeper alif kalau bisa
+  # command error cara kafka
+  # jika menemukan sesuatu baru kasih alif
       
   redis:
     image: redis

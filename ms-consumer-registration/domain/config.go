@@ -7,24 +7,19 @@ import (
 )
 
 type Config struct {
-	KafkaConsumer *kafka.Consumer
-	RedisClient *redis.Client
+	KafkaConfig *kafka.ConfigMap
+	RedisClient   *redis.Client
 }
 
-func LoadConfig() (config Config, err error){
+func LoadConfig() (config Config, err error) {
 
-	// kafka
-	configuration := kafka.ConfigMap{
-		"bootstrap.servers":    "localhost:9092",
-		"group.id":             "group1",
+	// kafka config
+	config.KafkaConfig = &kafka.ConfigMap{
+		"bootstrap.servers":        "10.130.105.161:9092",
+		"group.id":                 "consumer-registration",
 		"go.events.channel.enable": true,
-		"enable.partition.eof": true,
+		"enable.partition.eof":     true,
 	}
-	consumer, err := kafka.NewConsumer(&configuration)
-	if err != nil {
-		return config, err
-	}
-	config.KafkaConsumer = consumer
 
 	// redis
 	redisClient := redis.NewClient(&redis.Options{
@@ -39,5 +34,5 @@ func LoadConfig() (config Config, err error){
 	config.RedisClient = redisClient
 
 	return config, err
-}
 
+}

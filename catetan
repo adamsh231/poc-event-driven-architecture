@@ -1,0 +1,11 @@
+1. pake server
+2. coba worker buffer + ambekan
+3. tandai error + jalan di control center
+4. lanjut ke limitasi
+
+
+  # add control center + lengkapi yaml (ex: ksql)
+  # alif control center dokumentasi jika terjadi error
+  # zookeper alif kalau bisa
+  # command error cara kafka
+  # jika menemukan sesuatu baru kasih alif

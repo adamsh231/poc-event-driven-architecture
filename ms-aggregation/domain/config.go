@@ -16,7 +16,7 @@ func LoadConfig() (config Config, err error){
 
 	// kafka
 	configuration := &kafka.ConfigMap{
-		"bootstrap.servers": "localhost:9092",
+		"bootstrap.servers": "10.130.105.161:9092",
 	}
 	producer, err := kafka.NewProducer(configuration)
 	if err != nil {
