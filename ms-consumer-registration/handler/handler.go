@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"ms-consumer-registration/domain"
 	"ms-consumer-registration/helpers"
@@ -24,16 +23,16 @@ func (handler Handler) RegisterHandler() {
 	kafkaHelper.AddHandlerToggle("transaction", func(message *kafka.Message) {
 		//redisHelper.QueueingOutlet(message)
 		time.Sleep(1500 * time.Millisecond)
-		fmt.Println(string(message.Value), "done!")
+		//fmt.Println(string(message.Value), "done!")
 	})
 
-	kafkaHelper.AddHandlerToggle("order", func(message *kafka.Message) {
-		//redisHelper.QueueingOutlet(message)
-		time.Sleep(1500 * time.Millisecond)
-		fmt.Println(string(message.Value), "done!")
-	})
-
-	kafkaHelper.AddHandlerToggle("fixed", func(message *kafka.Message) {
-		time.Sleep(1500 * time.Millisecond)
-	})
+	//kafkaHelper.AddHandlerToggle("order", func(message *kafka.Message) {
+	//	//redisHelper.QueueingOutlet(message)
+	//	time.Sleep(1500 * time.Millisecond)
+	//	fmt.Println(string(message.Value), "done!")
+	//})
+	//
+	//kafkaHelper.AddHandlerToggle("fixed", func(message *kafka.Message) {
+	//	time.Sleep(1500 * time.Millisecond)
+	//})
 }

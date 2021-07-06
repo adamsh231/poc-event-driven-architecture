@@ -23,7 +23,7 @@ func (helper KafkaHelper) Publish(topic string, partition int32, message interfa
 	messageConfiguration := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{
 			Topic:     &topic,
-			Partition: kafka.PartitionAny,
+			Partition: partition,
 		},
 		Value: messageInBytes,
 	}
