@@ -15,6 +15,6 @@ func main() {
 
 	routing := router.NewRouter(config.App, config)
 	routing.RegisterRouter()
-
 	log.Fatal(config.App.Listen(":3000"))
+
 }

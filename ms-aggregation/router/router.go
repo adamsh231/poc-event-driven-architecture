@@ -2,6 +2,7 @@ package router
 
 import (
 	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/gofiber/fiber/v2"
 	"ms-aggregation/domain"
 	"ms-aggregation/domain/requests"
@@ -30,44 +31,47 @@ func (router Router) RegisterRouter() {
 		}
 
 		kafkaHelper := helpers.NewKafkaHelper(router.Config.KafkaProducer)
-		if err := kafkaHelper.Publish(input.Topic, input.Message); err != nil {
+		if err := kafkaHelper.Publish(input.Topic, input.Partition, input.Message); err != nil {
 			return ctx.SendString(err.Error())
 		}
-
-		fmt.Println(input)
-
-		return ctx.JSON(input)
-	})
-
-	router.App.Post("/publish/generator", func(ctx *fiber.Ctx) error {
-
-		input := new(requests.PublishRandomRequest)
-		if err := ctx.BodyParser(input); err != nil {
-			return ctx.SendString(err.Error())
-		}
-		if err := router.Config.Validator.Struct(input); err != nil {
-			return ctx.SendString(err.Error())
-		}
-
-		go router.sendMessage("transaction")
-		go router.sendMessage("order")
 
 		return ctx.JSON("success")
 	})
+
+	go router.watcher()
+
 }
 
-func (router Router) sendMessage(topic string) {
-	for i := 0; i < 10000; i++ {
-		message := map[string]interface{}{
-			"id_"+topic:   i,
+func (router Router) watcher() {
+	for {
+		select {
+		case ev := <-router.Config.KafkaProducer.Events():
+			switch ev.(type) {
+
+			case *kafka.Message:
+				km := ev.(*kafka.Message)
+				if km.TopicPartition.Error != nil {
+					fmt.Printf("☠️ Failed to send message '%v' to topic '%v'\n\tErr: %v",
+						string(km.Value),
+						string(*km.TopicPartition.Topic),
+						km.TopicPartition.Error)
+				} else {
+					fmt.Printf("✅ Message '%v' delivered to topic '%v' (partition %d at offset %d)\n",
+						string(km.Value),
+						string(*km.TopicPartition.Topic),
+						km.TopicPartition.Partition,
+						km.TopicPartition.Offset)
+				}
+
+			case kafka.Error:
+				// It's an error
+				em := ev.(kafka.Error)
+				fmt.Printf("☠️ Uh oh, caught an error:\n\t%v\n", em)
+			default:
+				// It's not anything we were expecting
+				fmt.Printf("Got an event that's not a Message or Error 👻\n\t%v\n", ev)
+
+			}
 		}
-
-		kafkaHelper := helpers.NewKafkaHelper(router.Config.KafkaProducer)
-
-		if err := kafkaHelper.Publish(topic, message); err != nil{
-			fmt.Println(err.Error())
-		}
-
-		fmt.Println(topic, message)
 	}
 }

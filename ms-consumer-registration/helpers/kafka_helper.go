@@ -15,8 +15,8 @@ func NewKafkaHelper(kafkaConfig *kafka.ConfigMap) KafkaHelper {
 }
 
 func (helper KafkaHelper) AddHandlerToggle(topic string, action func(message *kafka.Message)) {
-	//helper.AddHandlerBasic(topic, action)
-	helper.AddHandlerWithWorker(topic, action)
+	helper.AddHandlerBasic(topic, action)
+	//helper.AddHandlerWithWorker(topic, action)
 }
 
 func (helper KafkaHelper) AddHandlerBasic(topic string, action func(message *kafka.Message)) {
@@ -139,7 +139,7 @@ func (helper KafkaHelper) AddHandlerWithWorker(topic string, action func(message
 			if len(bufferedChannel) == 5 {
 				for val := range bufferedChannel {
 					go val.Action(val.Message)
-					fmt.Println(len(bufferedChannel))
+					fmt.Println("buffer length:", len(bufferedChannel))
 				}
 			}
 		}
