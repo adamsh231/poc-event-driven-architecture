@@ -22,17 +22,7 @@ func (handler Handler) RegisterHandler() {
 
 	kafkaHelper.AddHandlerToggle("transaction", func(message *kafka.Message) {
 		//redisHelper.QueueingOutlet(message)
-		time.Sleep(1500 * time.Millisecond)
-		//fmt.Println(string(message.Value), "done!")
+		time.Sleep(1000 * time.Millisecond)
 	})
 
-	//kafkaHelper.AddHandlerToggle("order", func(message *kafka.Message) {
-	//	//redisHelper.QueueingOutlet(message)
-	//	time.Sleep(1500 * time.Millisecond)
-	//	fmt.Println(string(message.Value), "done!")
-	//})
-	//
-	//kafkaHelper.AddHandlerToggle("fixed", func(message *kafka.Message) {
-	//	time.Sleep(1500 * time.Millisecond)
-	//})
 }

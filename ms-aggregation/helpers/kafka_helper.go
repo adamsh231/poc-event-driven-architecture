@@ -20,6 +20,10 @@ func (helper KafkaHelper) Publish(topic string, partition int32, message interfa
 		return err
 	}
 
+	if partition == -1 {
+		partition = kafka.PartitionAny
+	}
+
 	messageConfiguration := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{
 			Topic:     &topic,
