@@ -20,7 +20,7 @@ func (handler Handler) RegisterHandler() {
 	kafkaHelper := helpers.NewKafkaHelper(handler.Config.KafkaConfig)
 	//redisHelper := helpers.NewRedisHelper(handler.Config.RedisClient)
 
-	kafkaHelper.AddHandlerToggle("transaction", func(message *kafka.Message) {
+	kafkaHelper.AddHandlerToggle("order", func(message *kafka.Message) {
 		//redisHelper.QueueingOutlet(message)
 		time.Sleep(1000 * time.Millisecond)
 	})
