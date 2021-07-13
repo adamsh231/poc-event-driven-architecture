@@ -36,7 +36,7 @@ func (helper KafkaHelper) Publish(topic string, partition int32, message interfa
 		return err
 	}
 
-	if r := helper.KafkaProducer.Flush(10000); r > 0 {
+	if r := helper.KafkaProducer.Flush(1000); r > 0 {
 		fmt.Printf("⚠️ Failed to flush all messages after 10 seconds. %d message(s) remain\n", r)
 	} else {
 		fmt.Println("✨ All messages flushed from the queue")

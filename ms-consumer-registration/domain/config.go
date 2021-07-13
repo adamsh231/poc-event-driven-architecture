@@ -14,8 +14,7 @@ func LoadConfig() (config Config, err error) {
 
 	// kafka config
 	config.KafkaConfig = &kafka.ConfigMap{
-		//"bootstrap.servers":        "10.130.105.161:9092",
-		"bootstrap.servers":        "localhost:9092",
+		"bootstrap.servers":        "10.130.105.161:19091",
 		"group.id":                 "ms-consumer-registration",
 		"go.events.channel.enable": true,
 		"enable.partition.eof":     true,

@@ -30,7 +30,7 @@ func (router Router) RegisterRouter() {
 			return ctx.SendString(err.Error())
 		}
 
-		for i := 0; i < 10; i++ {
+		for i := 0; i < 1; i++ {
 			kafkaHelper := helpers.NewKafkaHelper(router.Config.KafkaProducer)
 			if err := kafkaHelper.Publish(input.Topic, input.Partition, fmt.Sprintf("%s - %d",input.Message,i)); err != nil {
 				return ctx.SendString(err.Error())
